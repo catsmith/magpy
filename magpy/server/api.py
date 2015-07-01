@@ -492,6 +492,7 @@ class ResourceTypeHandler(tornado.web.RequestHandler,
         """Create a new instance.
         Start by looking if it already exists!"""
         body = self.request.body
+
         if six.PY3 and isinstance(body, six.binary_type):
             body = body.decode('utf8')
         

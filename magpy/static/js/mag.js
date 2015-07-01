@@ -453,7 +453,6 @@ var MAG = (function () {
                     if (typeof options.force_reload === 'undefined') {
                         options.force_reload = false;
                     }
-
                     base_url = MAG._STORAGE.get_data_from_storage_or_function(
                         "MAG._REST.get_api_url"
                     );
@@ -469,11 +468,10 @@ var MAG = (function () {
                         query['_fields'] = options.fields
                         delete options.fields;
                     }
-                    if (!(MAG.TYPES.is_empty_object(query))) {
-                        url += '?';
+                    if (!(MAG.TYPES.is_empty_object(query))) {               	
+                	url += '?';
                         url += MAG.URL.build_query_string(query);
                     }
-
                     api_url = 'api:' + url;
                     if (typeof options.success === 'undefined') {
                         // No optional callback
@@ -510,8 +508,7 @@ var MAG = (function () {
                             callback(data);
                         };
                     } // End if (typeof optional_callback === 'undefined')
-
-                    options.method = "GET";
+                    options.method = "GET";                   
                     MAG._REQUEST.request(url, options);
                 },
 
@@ -536,7 +533,6 @@ var MAG = (function () {
                     );
                     url += resource;
                     url += '/';
-
                     if (typeof options.success === 'undefined') {
                         // No optional callback
                         // Just cache the resource
@@ -2842,14 +2838,16 @@ var MAG = (function () {
                         search_text = document.getElementById('search_text');
                         search_query = {};
                         if (search_field !== null && search_text !== null && search_field.value !== 'none' && search_text.value !== '') {
-                            if (model_json[search_field.value].field === 'Boolean') {
+                            if (search_field.value === '_id') {
+                        	search_query[search_field.value] = search_text.value;
+                            } else if (model_json[search_field.value].field === 'Boolean') {
                                 if (search_text.value === 'Y') {
                                     search_query[search_field.value] = 'JSON:true';
                                 } else {
                                     search_query[search_field.value] = 'JSON:' + encodeURIComponent(JSON.stringify({'$exists': false}));
                                 }
                             } else if (model_json[search_field.value].field !== 'Char' && model_json[search_field.value].field !== 'Text') {
-                                search_query[search_field.value] = 'JSON:' + search_text.value;
+                        	search_query[search_field.value] = 'JSON:' + search_text.value;                      
                             } else {
                                 search_query[search_field.value] = search_text.value;
                             }
