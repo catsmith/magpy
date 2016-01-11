@@ -2675,6 +2675,7 @@ var MAG = (function () {
                     var container, html, key, key_list, auto_sort, param_dict,
                         page_num, page_size, search, criteria, sort, filter_key,
                         callback;
+                    
                     container = document.getElementById(container_id) || document.getElementsByTagName('body')[0];
                     html = [];
                     //supplied options
@@ -2794,7 +2795,12 @@ var MAG = (function () {
                                 document.getElementById('page_size').innerHTML = '<select id="page_size_select"></select> per page';
                                 MAG.FORMS.populate_select(['20', '50', '100', 'all'], document.getElementById('page_size_select'), undefined, undefined, page_size);
                                 MAG.EVENT.addEventListener(document.getElementById('page_size_select'), 'change', function(event){
-                                    window.location = '?' + MAG.DISPLAY.create_new_query({'size': (parseInt(event.target.value))});
+                                    var page_size;
+                                    page_size = parseInt(event.target.value);
+                                    if (isNaN(page_size)) {
+                                	page_size = 'all';
+                                    }
+                                    window.location = '?' + MAG.DISPLAY.create_new_query({'size': page_size});
                                 });
                             }
                             MAG.DISPLAY.get_navigation_widget(document.getElementById('page_nav'), data.count, page_num, page_size, {'buttons': true, 'angle_brackets': true});
